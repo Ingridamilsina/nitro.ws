@@ -36,7 +36,7 @@ function setForm(d) {
 
 function submitDB(token, data, cb) {
     $.ajax({
-        url: "http://nitro.ws/database", //Change On Live
+        url: "/database", //Change On Live
         method: "POST",
         headers: {
             Authorization: token,
@@ -55,7 +55,7 @@ function submitDB(token, data, cb) {
 
 function loadDB(token, cb) {
     $.ajax({
-        url: "http://nitro.ws/database", //Change On Live
+        url: "/database", //Change On Live
         method: "GET",
         headers: {
             Authorization: token
