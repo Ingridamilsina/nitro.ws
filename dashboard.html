@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body background="dashback.png">
+
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="images/nitrosmall.png" class="brand-logo">Nitro</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Commands</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Commands</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+    <br>
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="a" id="api_key" type="text" color="#ffffff">
+                    <label for="api_key" class="active">API Key</label>
+                </div>
+            </div>
+
+            <button class="btn waves-effect waves-light" type="submit" id="load_db">Load
+              <i class="material-icons right">cloud</i>
+             </button>
+             <br><br>
+            <button class="btn waves-effect waves-light" type="submit" id="submit_form">Submit
+              <i class="material-icons right">send</i>
+             </button>
+
+        </form>
+    </div>
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/nitro.js"></script>
+</body>
+
+</html>
