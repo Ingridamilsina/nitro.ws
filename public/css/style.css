@@ -56,6 +56,24 @@ footer.page-footer {
   margin: 0;
 }
 
-#api_key {
-  color: gray
+.input-field {
+  color: lightcyan;
+}
+
+:-moz-placeholder {
+  color: lightslategray
+}
+:-ms-input-placeholder {
+  color: lightslategray
+}
+::-moz-placeholder {
+  color: lightslategray
+}
+::-webkit-input-placeholder {
+  color: lightslategray
+}
+
+h5 {
+  text-align: left;
+  color: rgba(53, 186, 154, 1)
 }

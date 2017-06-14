@@ -45,11 +45,41 @@ async function top() {
         data.toArray((err, array) => {
           if (err) return res.send(JSON.stringify(returnObj))
           if (array.length < 1) res.send(JSON.stringify(returnObj))
-          if (array.length === 1) res.send(JSON.stringify(array[0]))
+          if (array.length === 1) res.send(JSON.stringify(array[0].data))
           if (array.length > 1) res.send(JSON.stringify(returnObj))
         })
       })
 
+    } else if (req.method === "POST") {
+      let returnObj = {
+        error: true
+      }
+      let token = req.headers.authorization
+      r.table('config').filter({
+        "data": {
+          "apitoken": token
+        }
+      }).run(conn, (err, data) => {
+        if (err) return res.send(JSON.stringify(returnObj))
+        data.toArray((err, array) => {
+          if (err) return res.send(JSON.stringify(returnObj))
+          if (array.length < 1) return res.send(JSON.stringify(returnObj))
+          if (array.length === 1) {
+            r.table('config').insert({
+              id: array[0].id,
+              data: JSON.parse(req.headers.data)
+            }, {
+              conflict: "update"
+            }).run(conn, (err, data) => {
+              if (err) return res.send(JSON.stringify(returnObj))
+              res.send(JSON.stringify({
+                error: false
+              }))
+            })
+          }
+          if (array.length > 1) return res.send(JSON.stringify(returnObj))
+        })
+      })
     }
   })
 
