@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+    var token = getOptionals("token")
+    var apitoken = getOptionals("apitoken")
+    var key = getOptionals("key")
+    let valid = token || opitoken || key
+    $("#api_key").val(valid)
+
     $('#load_db').click(function () {
         Materialize.toast("Loading Configuration From Server", 3000, "rounded blue")
         var token = $('#api_key').val()
@@ -22,6 +28,13 @@ $(document).ready(function () {
     })
 
 })
+
+function getOptionals(field, url) {
+    var href = window.location.href;
+    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+};
 
 function collectForm() {
     let obj = {
