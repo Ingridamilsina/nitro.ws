@@ -1,10 +1,7 @@
 $(document).ready(function () {
 
     var token = getOptionals("token")
-    var apitoken = getOptionals("apitoken")
-    var key = getOptionals("key")
-    let valid = token || opitoken || key
-    $("#api_key").val(valid)
+    if (token) $("#api_key").val(token)
 
     $('#load_db').click(function () {
         Materialize.toast("Loading Configuration From Server", 3000, "rounded blue")
