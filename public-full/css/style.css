@@ -1,14 +1,10 @@
-/* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
-
 nav ul a,
 nav .brand-logo {
   color: #444;
+}
+
+body.dash {
+  background-color: lightcyan
 }
 
 p {
@@ -57,23 +53,27 @@ footer.page-footer {
 }
 
 .input-field {
-  color: lightcyan;
+  color: lightslategray
 }
 
 :-moz-placeholder {
-  color: lightslategray
+  color: lightgray
 }
 :-ms-input-placeholder {
-  color: lightslategray
+  color: lightgray
 }
 ::-moz-placeholder {
-  color: lightslategray
+  color: lightgray
 }
 ::-webkit-input-placeholder {
-  color: lightslategray
+  color: lightgray
 }
 
-h5 {
+h4 {
   text-align: left;
+  color: rgba(53, 186, 154, 1)
+}
+
+p.gp {
   color: rgba(53, 186, 154, 1)
 }
