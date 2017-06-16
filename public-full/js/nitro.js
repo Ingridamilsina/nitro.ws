@@ -20,37 +20,44 @@ $(document).ready(function () {
     });
 
     //Tooltips
-    $("#load_db").tooltip({delay: 50})
-    $("#submit_form").tooltip({delay: 50})
+    $("#load_db").tooltip({
+        delay: 50
+    })
+    $("#submit_form").tooltip({
+        delay: 50
+    })
 
     //Token in url
     var token = getOptionals("token")
-    if (token) $("#api_key").val(token)
+    if (token) $("#api_key").val(token), loadButton()
 
     //Load Button
-    $('#load_db').click(function () {
-        Materialize.toast("Loading Configuration From Server", 3000, "rounded blue")
-        var token = $('#api_key').val()
-        loadDB(token, function (err, data) {
-            if (err || data.error) return Materialize.toast("Invalid Token", 3000, "rounded red")
-            setForm(data)
-            Materialize.toast("Configuration Loaded", 3000, "rounded green")
-        })
-
-    })
+    $('#load_db').click(loadButton)
 
     //Submit Button
-    $("#submit_form").click(function () {
-        Materialize.toast("Submitting Configuration", 3000, "rounded blue")
-        var token = $('#api_key').val()
-        var data = collectForm()
-        submitDB(token, data, function (err, data) {
-            if (err || data.error) return Materialize.toast("Invalid Token", 3000, "rounded red")
-            Materialize.toast("Configuration Saved To Server", 3000, "rounded green")
-        })
-    })
+    $("#submit_form").click(submitButton)
 
 })
+
+function loadButton() {
+    Materialize.toast("Loading Configuration From Server", 3000, "rounded blue")
+    var token = $('#api_key').val()
+    loadDB(token, function (err, data) {
+        if (err || data.error) return Materialize.toast("Invalid Token", 3000, "rounded red")
+        setForm(data)
+        Materialize.toast("Configuration Loaded", 3000, "rounded green")
+    })
+}
+
+function submitButton() {
+    Materialize.toast("Submitting Configuration", 3000, "rounded blue")
+    var token = $('#api_key').val()
+    var data = collectForm()
+    submitDB(token, data, function (err, data) {
+        if (err || data.error) return Materialize.toast("Invalid Token", 3000, "rounded red")
+        Materialize.toast("Configuration Saved To Server", 3000, "rounded green")
+    })
+}
 
 function collectForm() {
     var form = {}
@@ -210,11 +217,11 @@ function loadDB(token, cb) {
 
 }
 
-(function($){
-  $(function(){
+(function ($) {
+    $(function () {
 
-    $('.button-collapse').sideNav();
-    $('.parallax').parallax();
+        $('.button-collapse').sideNav();
+        $('.parallax').parallax();
 
-  }); // end of document ready
+    }); // end of document ready
 })(jQuery); // end of jQuery name space
