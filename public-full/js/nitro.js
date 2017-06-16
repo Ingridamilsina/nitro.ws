@@ -182,7 +182,7 @@ function getOptionals(field, url) {
 
 function submitDB(token, data, cb) {
     $.ajax({
-        url: "/database", //Change On Live
+        url: "/api/database", //Change On Live
         method: "POST",
         headers: {
             Authorization: token,
@@ -201,7 +201,7 @@ function submitDB(token, data, cb) {
 
 function loadDB(token, cb) {
     $.ajax({
-        url: "/database", //Change On Live
+        url: "/api/database", //Change On Live
         method: "GET",
         headers: {
             Authorization: token

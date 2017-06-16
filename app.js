@@ -1,10 +1,20 @@
 const express = require("express");
+const superagent = require('superagent');
 const app = express();
 const router = express.Router();
 const path = __dirname + "/";
 const port = 2001
-const auth = require('./auth.js')
+const {RETHINK_PASS, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, CLIENT_SCOPES} = require('./auth.js')
 const r = require('rethinkdb')
+
+const AUTH_QUERY = [
+  `client_id=${CLIENT_ID}`,
+  `scope=${CLIENT_SCOPES.join('+')}`,
+  `redirect_uri=${REDIRECT_URI}`,
+  'response_type=code',
+].join('&');
+
+const AUTH_URI = `https://discordapp.com/oauth2/authorize?${AUTH_QUERY}`;
 
 top()
 
@@ -30,7 +40,7 @@ async function top() {
   });
 
   //API
-  router.use('/database', function (req, res) {
+  router.use('/api/database', function (req, res) {
     if (req.method === "GET") {
       let returnObj = {
         error: true
@@ -83,6 +93,29 @@ async function top() {
     }
   })
 
+  router.use('/api/login', (req, res) => {
+    res.redirect(AUTH_URI)
+  })
+
+  router.use('/api/callback', (req, res) => {
+    if (req.query.error) return res.redirect(AUTH_URI)
+    const TOKEN_PARAMS = [
+      'grant_type=authorization_code',
+      `code=${req.query.code}`,
+      `client_id=${CLIENT_ID}`,
+      `client_secret=${CLIENT_SECRET}`,
+      `redirect_uri=${REDIRECT_URI}`,
+    ].join('&');
+    const TOKEN_URI = `https://discordapp.com/api/oauth2/token?${TOKEN_PARAMS}`;
+    superagent.post(TOKEN_URI).then((response) => {
+      superagent.get('https://discordapp.com/api/users/@me')
+      .set({Authorization: `${response.body.token_type} ${response.body.access_token}`})
+      .then(r => r.body)
+    }).then(user => {
+      console.log(user)
+    })
+  })
+
   app.use("/", router);
 
   app.use("*", function (req, res) {
@@ -101,7 +134,7 @@ async function loadDB() {
     host: "localhost",
     port: '28015',
     db: "Nitro",
-    password: auth.rethink
+    password: RETHINK_PASS
   })
   return conn
 
