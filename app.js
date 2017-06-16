@@ -100,6 +100,7 @@ async function top() {
   router.use('/api/callback', (req, res) => {
     if (req.query.error) return res.redirect(AUTH_URI)
     if (!req.query.code) return res.redirect(AUTH_URI)
+    res.redirect("http://nitro.ws/dashboard")
     console.log(req.query.code)
     const TOKEN_PARAMS = [
       'grant_type=authorization_code',
