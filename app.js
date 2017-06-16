@@ -3,7 +3,7 @@ const superagent = require('superagent');
 const app = express();
 const router = express.Router();
 const path = __dirname + "/";
-const port = 2001
+const port = process.env.PORT || 80
 const {RETHINK_PASS, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, CLIENT_SCOPES} = require('./auth.js')
 const r = require('rethinkdb')
 
@@ -99,6 +99,7 @@ async function top() {
 
   router.use('/api/callback', (req, res) => {
     if (req.query.error) return res.redirect(AUTH_URI)
+    console.log(req.query)
     const TOKEN_PARAMS = [
       'grant_type=authorization_code',
       `code=${req.query.code}`,
@@ -113,7 +114,7 @@ async function top() {
       .then(r => r.body)
     }).then(user => {
       console.log(user)
-    })
+    }).catch(console.log)
   })
 
   app.use("/", router);
