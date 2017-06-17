@@ -114,9 +114,7 @@ async function top() {
     superagent.post(TOKEN_URI).then((response) => {
       superagent.get('https://discordapp.com/api/users/@me')
       .set({Authorization: `${response.body.token_type} ${response.body.access_token}`})
-      .then(r => r.body)
-    }).then(user => {
-      console.log(user)
+      .then(r => console.log(r.body))
     }).catch(console.log)
   })
 
