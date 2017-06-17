@@ -110,6 +110,7 @@ async function top() {
       `redirect_uri=${REDIRECT_URI}`,
     ].join('&');
     const TOKEN_URI = `https://discordapp.com/api/oauth2/token?${TOKEN_PARAMS}`;
+    console.log(TOKEN_URI)
     superagent.post(TOKEN_URI).then((response) => {
       superagent.get('https://discordapp.com/api/users/@me')
       .set({Authorization: `${response.body.token_type} ${response.body.access_token}`})
