@@ -209,7 +209,7 @@ function disableForm(dis = false) {
         }
     } else {
 		for (i = 0; i < formItems.length; i++) {
-            $("#" + formItems[i]).remoteAttr("disabled")
+            $("#" + formItems[i]).removeAttr("disabled")
         }
 	}
 }
