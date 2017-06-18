@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="dash">
+
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="images/nitrosmall.png" class="brand-logo">Nitro</a>
+            <ul class="right hide-on-m/ed-and-down">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Commands</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Commands</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+    <br>
+
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="0688b634-056e-48f5-8a5a-24ae258299e4" id="api_key" type="text">
+                    <label for="api_key" class="active">API Key</label>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Load Settings From Your Server" type="button" id="load_db">Load
+              <i class="material-icons right">cloud</i>
+             </button>
+
+                <button class="btn waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Write Settings To Your Server" type="button" id="submit_form">Submit
+              <i class="material-icons right">send</i>
+             </button>
+            </div>
+
+            <h4>Prefix</h4>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="n!" id="prefix" type="text">
+                    <label for="prefix" class="active">The prefix for commands.</label>
+                </div>
+            </div>
+
+            <h4>Adblock</h4>
+            <div class="row">
+                <div class="switch">
+                    <label>
+                        Disabled
+                        <input type="checkbox" id="adblock-toggle">
+                        <span class="lever"></span>
+                        Enabled
+                    </label>
+                </div>
+                <p class="gp">Toggle Strikes</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" id="adblock-strikes">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+                <p class="gp">Toggle Notify</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" id="adblock-notify">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+                <p class="gp">Users Exempt from Adblock</p>
+                <div class="chips chips-placeholder chips-initial" id="adblock-users"></div>
+                <p class="gp">Roles Exempt from Adblock</p>
+                <div class="chips chips-placeholder chips-initial" id="adblock-roles"></div>
+            </div>
+
+            <h4>Keyword Filter</h4>
+            <div class="row">
+                <p class="gp">Toggle Strikes</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" id="filter-strikes">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+                <p class="gp">The Keywords to Filter</p>
+                <div class="chips chips-placeholder chips-initial" id="filter-keywords"></div>
+            </div>
+
+            <h4>Join DM</h4>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="joindm" placeholder="Welcome to Nitro's Closet!" class="materialize-textarea"></textarea>
+                    <label for="joindm" class="active">The message sent to the user when they join your server.</label>
+                </div>
+            </div>
+
+            <h4>Modules</h4>
+            <div class="row">
+                <p class="gp">Music Module</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" id="module-music">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+                <p class="gp">Social Module</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" id="module-social">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+                <p class="gp">Fun Module</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" id="module-fun">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/nitro.js"></script>
+</body>
+
+</html>
