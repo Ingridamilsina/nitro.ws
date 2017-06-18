@@ -205,7 +205,7 @@ function disableForm(dis = false) {
     ]
     if (dis) {
         for (i = 0; i < formItems.length; i++) {
-            $("#" + formItems[i]).attr("disabled")
+            $("#" + formItems[i]).attr("disabled", "true")
         }
     } else {
 		for (i = 0; i < formItems.length; i++) {
