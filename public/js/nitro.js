@@ -29,7 +29,7 @@ $(document).ready(function() {
 
     //Token in url
     alert(document.cookie)
-	var middleAuth = localStorage.getItem('authorizing')
+    var middleAuth = localStorage.getItem('authorizing')
     if (middleAuth) {
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('tokenType', tokenType)
@@ -46,14 +46,14 @@ $(document).ready(function() {
 function loginButton() {
     Materialize.toast('Logging In...', 3000, "rounded blue")
     auth(function(err, creds) {
-		creds = JSON.parse(creds)
+        creds = JSON.parse(creds)
         if (err || creds.error) return Materialize.toast("Login Failed, Try Again Later", 3000, "rounded red")
         var decode = atob(creds.auth)
         var decode_split = decode.split(":")
         var API_TOKEN = decode_split[0]
         var API_SECRET = decode_split[1]
         login(creds, function(err, dataObj) {
-			dataObj = JSON.parse(dataObj)
+            dataObj = JSON.parse(dataObj)
             if (err || dataObj.error) return Materialize.toast("Login Failed, Try Again Later", 3000, "rounded red")
             localStorage.setItem('authorizing', true)
             window.location.href = dataObj.url
@@ -188,6 +188,32 @@ function setForm(d) {
 
 }
 
+function disableForm(dis = false) {
+    var formItems = [
+        'prefix',
+        'adblock-toggle',
+        'adblock-strikes',
+        'adblock-notify',
+        'adblock-users',
+        'adblock-roles',
+        'filter-strikes',
+        'filter-keywords',
+        'joindm',
+        'module-music',
+        'module-fun',
+        'module-social'
+    ]
+    if (dis) {
+        for (i = 0; i < formItems.length; i++) {
+            $("#" + formItems[i]).addClass("disabled")
+        }
+    } else {
+		for (i = 0; i < formItems.length; i++) {
+            $("#" + formItems[i]).removeClass("disabled")
+        }
+	}
+}
+
 function auth(cb) {
     var DEFAULT = "ruojrb5enfktpkd2d6yg8vcmop5z12yl6lv3u4plwc"
     var df = btoa(DEFAULT)
@@ -207,7 +233,7 @@ function auth(cb) {
 }
 
 function login(token, cb) {
-	token = token.auth
+    token = token.auth
     $.ajax({
         url: "/api/login",
         method: "GET",
@@ -275,6 +301,7 @@ function loadDB(token, cb) {
 
 }
 
+//Initialize Jquery
 (function($) {
     $(function() {
 
@@ -283,3 +310,74 @@ function loadDB(token, cb) {
 
     }); // end of document ready
 })(jQuery); // end of jQuery name space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Cookie Function
+if (typeof String.prototype.trimLeft !== "function") {
+    String.prototype.trimLeft = function() {
+        return this.replace(/^\s+/, "");
+    };
+}
+if (typeof String.prototype.trimRight !== "function") {
+    String.prototype.trimRight = function() {
+        return this.replace(/\s+$/, "");
+    };
+}
+if (typeof Array.prototype.map !== "function") {
+    Array.prototype.map = function(callback, thisArg) {
+        for (var i = 0, n = this.length, a = []; i < n; i++) {
+            if (i in this) a[i] = callback.call(thisArg, this[i]);
+        }
+        return a;
+    };
+}
+
+function getCookies() {
+    var c = document.cookie,
+        v = 0,
+        cookies = {};
+    if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
+        c = RegExp.$1;
+        v = 1;
+    }
+    if (v === 0) {
+        c.split(/[,;]/).map(function(cookie) {
+            var parts = cookie.split(/=/, 2),
+                name = decodeURIComponent(parts[0].trimLeft()),
+                value = parts.length > 1 ? decodeURIComponent(parts[1].trimRight()) : null;
+            cookies[name] = value;
+        });
+    } else {
+        c.match(/(?:^|\s+)([!#$%&'*+\-.0-9A-Z^`a-z|~]+)=([!#$%&'*+\-.0-9A-Z^`a-z|~]*|"(?:[\x20-\x7E\x80\xFF]|\\[\x00-\x7F])*")(?=\s*[,;]|$)/g).map(function($0, $1) {
+            var name = $0,
+                value = $1.charAt(0) === '"' ?
+                $1.substr(1, -1).replace(/\\(.)/g, "$1") :
+                $1;
+            cookies[name] = value;
+        });
+    }
+    return cookies;
+}
+
+function getCookie(name) {
+    return getCookies()[name];
+}
