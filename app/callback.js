@@ -6,17 +6,17 @@ module.exports = (req, res) => {
     let AUTH_URI = authURI()
     if (req.query.error) return res.redirect(AUTH_URI)
     if (!req.query.code) return res.redirect(AUTH_URI)
-    res.redirect("http://nitro.ws/dashboard")
+
     let TOKEN_URI = tokenURI(req.query.code)
     superagent.post(TOKEN_URI).then((response) => {
-    res.redirect(`http://nitro.ws/dashboard?accessToken=${response.body.access_token}&tokenType=${response.body.token_type}`)
+        res.redirect(`http://nitro.ws/dashboard?accessToken=${response.body.access_token}&tokenType=${response.body.token_type}`)
     }).catch(res.redirect(AUTH_URI))
-    superagent.get('https://discordapp.com/api/users/@me')
+    /*superagent.get('https://discordapp.com/api/users/@me')
         .set({
             Authorization: `${response.body.token_type} ${response.body.access_token}`
         })
         .then(r => console.log(r.body))
-
+    */
 }
 
 function authURI() {
