@@ -1,5 +1,6 @@
 //Modules
 const express = require("express")
+const cookieParser = require('cookie-parser')
 
 //Config
 const config = require('../config')
@@ -36,6 +37,9 @@ async function init() {
 
     //Put Files In Static
     app.use(express.static('public'))
+
+    //Cookie
+    app.use(cookieParser())
 
 
     router.use(function(req, res, next) {

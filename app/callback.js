@@ -9,7 +9,8 @@ module.exports = (req, res) => {
 
     let TOKEN_URI = tokenURI(req.query.code)
     superagent.post(TOKEN_URI).then((response) => {
-        res.redirect(`http://nitro.ws/dashboard?accessToken=${response.body.access_token}&tokenType=${response.body.token_type}`)
+        console.log(response.body.token_type)
+        res.cookie('nitroAccessToken', response.body.access_token)
     }).catch(res.redirect(AUTH_URI))
     /*superagent.get('https://discordapp.com/api/users/@me')
         .set({
