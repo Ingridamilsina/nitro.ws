@@ -205,11 +205,11 @@ function disableForm(dis = false) {
     ]
     if (dis) {
         for (i = 0; i < formItems.length; i++) {
-            $("#" + formItems[i]).addClass("disabled")
+            $("#" + formItems[i]).attr("disabled")
         }
     } else {
 		for (i = 0; i < formItems.length; i++) {
-            $("#" + formItems[i]).removeClass("disabled")
+            $("#" + formItems[i]).remoteAttr("disabled")
         }
 	}
 }
