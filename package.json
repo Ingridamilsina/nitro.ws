@@ -10,6 +10,7 @@
   "author": "Funnbot",
   "license": "MIT",
   "dependencies": {
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
     "rethinkdb": "^2.3.3",
     "superagent": "^3.5.2"
