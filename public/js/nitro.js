@@ -28,10 +28,9 @@ $(document).ready(function() {
     })
 
     //Token in url
-    var accessToken = getOptionals("accessToken")
-    var tokenType = getOptionals("tokenType")
+    alert(document.cookie)
 	var middleAuth = localStorage.getItem('authorizing')
-    if (accessToken && tokenType && middleAuth) {
+    if (middleAuth) {
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('tokenType', tokenType)
     }
