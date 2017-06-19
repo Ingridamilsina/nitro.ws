@@ -12,6 +12,7 @@ module.exports = (req, res) => {
         .set({ Authorization: `Bearer ${token}` }).then(user => {
 
             user.avatarURL =  `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`
+            console.log('not making')
 
             sa.get('https://discordapp.com/api/users/@me/guilds')
                 .set({ Authorization: `Bearer ${token}` }).then(guilds => {
