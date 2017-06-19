@@ -66,8 +66,8 @@ $(document).ready(function() {
 function loadUserData() {
     Materialize.toast("Fetching Guilds...", 3000, "rounded blue")
     fetchUserInfo(function(err, data) {
-		data = JSON.parse(data)
 		alert(data)
+		data = JSON.parse(data)
 		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 		
 		if (data.guilds.length === 0) return Materialize.toast("You Do Not Own Any Servers", 3000, "rounded red")
