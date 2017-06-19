@@ -11,12 +11,12 @@ module.exports = (req, res) => {
     sa.get('https://discordapp.com/api/users/@me')
         .set({ Authorization: `Bearer ${token}` }).then(user => {
             user = user.body
-            console.log(typeof user)
+            console.log(user)
             user.avatarURL =  `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`
 
             sa.get('https://discordapp.com/api/users/@me/guilds')
                 .set({ Authorization: `Bearer ${token}` }).then(guilds => {
-
+                    console.log(guilds)
                     guilds = guilds.filter(g => g.owner)
                     guilds.forEach((g, i) => {
                         let iconURL = `'https://cdn.discordapp.com/icons/${g.id}/${g.icon}.jpg'`
