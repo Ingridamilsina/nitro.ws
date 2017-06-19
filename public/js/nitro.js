@@ -66,7 +66,6 @@ $(document).ready(function() {
 function loadUserData() {
     Materialize.toast("Fetching Guilds...", 3000, "rounded blue")
     fetchUserInfo(function(err, data) {
-		alert(data)
 		data = JSON.parse(data)
 		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 		
@@ -263,6 +262,7 @@ function disableForm(dis = false) {
 
 function fetchUserInfo(cb) {
     var token = getToken()
+	alert(token)
     $.ajax({
         url: "/api/userinfo",
         method: "GET",
