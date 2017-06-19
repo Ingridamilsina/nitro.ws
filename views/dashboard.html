@@ -10,19 +10,21 @@
 
 <body class="dash">
 
-    <nav class="white" role="navigation">
+    <nav class="" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="images/nitrosmall.png" class="brand-logo">Nitro</a>
+                <img src="images/discorddf.png" class="user" id="profile-img">
+                <a class="shift-login waves-effect waves-light btn" id="profile-text">Login</a>
+            <!--<a class="brand-logo">Funnbot</a>-->
             <ul class="right hide-on-m/ed-and-down">
                 <li><a href="/">Home</a></li>
                 <li><a href="#">Commands</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
+                <li class="active"><a href="/dashboard">Dashboard</a></li>
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="/">Home</a></li>
                 <li><a href="#">Commands</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
+                <li class="active"><a href="/dashboard">Dashboard</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         </div>
@@ -33,11 +35,16 @@
         <form class="col s12">
 
             <div class="row">
-                <button class="btn waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Load Settings From Your Server" type="button" id="load_db">Load
-              <i class="material-icons right">cloud</i>
-             </button>
+                <div class="input-field col s4">
+                    <select class="icons" id="select-guild" disabled>
+                        <option value="" disabled selected>Choose an option</option>
 
-                <button class="btn waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Write Settings To Your Server" type="button" id="submit_form">Submit
+                    </select>
+                    <label>Select the guild you wish to edit</label>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light tooltipped z-depth-5" data-position="top" data-delay="50" data-tooltip="Write Settings To Your Server" type="button" id="submit_form">Submit
               <i class="material-icons right">send</i>
              </button>
             </div>
@@ -139,7 +146,7 @@
             </div>
         </form>
     </div>
-   
+
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.js"></script>

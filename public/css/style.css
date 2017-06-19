@@ -77,3 +77,19 @@ h4 {
 p.gp {
   color: rgba(53, 186, 154, 1)
 }
+
+.user {
+  display: inline-block;
+  margin-top: 6px;
+  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.shift-login {
+  margin-bottom: 39px;
+}

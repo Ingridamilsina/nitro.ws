@@ -19,6 +19,9 @@ $(document).ready(function() {
         secondaryPlaceholder: "The Keyword"
     });
 
+	//Select
+	$("#select-guild").material_select()
+
     //Tooltips
     $("#load_db").tooltip({
         delay: 50
@@ -51,10 +54,50 @@ $(document).ready(function() {
         loginRedirect()
     }
 
+    if (checkAccessToken) {
+        loadUserData()
+    }
+
     //Submit Button
-    $("#submit_form").click(submitButton)
+    //$("#submit_form").click(submitButton)
 
 })
+
+function loadUserData() {
+    Materialize.toast("Fetching Guilds...", 3000, "rounded blue")
+    fetchUserInfo(function(err, data) {
+		data = JSON.parse(data)
+		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
+		
+		if (data.guilds.length === 0) return Materialize.toast("You Do Not Own Any Servers", 3000, "rounded red")
+
+		fillProfile(data.user)
+		fillDropdown(data.guilds)
+
+    })
+}
+
+function fillProfile(user) {
+	$('#profile-img').attr('src', user.avatarURL)
+	$('#profile-text').attr('class', 'brand-logo')
+	if (user.username.length > 10) user.username = user.username.substring(0, 10)
+	$('#profile-text').text(user.username)
+}
+
+function fillDropdown(guilds) {
+	var opt = []
+	var choose = `<option value="" disabled selected>Choose an option</option>`
+	opt.push(choose)
+
+	guilds.forEach((g, i) => {
+		var text = g.name
+		if (text.length > 25) text = text.substring(0, 25)
+		var a = `<option value="${i}" data-icon="${g.iconURL}" class="circle">${text}</option>`
+	})
+
+	$('#select-guild').html(opt.join(" "))
+	$('#select-guild').removeAttr('disabled')
+}
 
 function loginRedirect() {
     Materialize.toast('Logging In...', 3000, "rounded blue")
@@ -71,16 +114,6 @@ function loginRedirect() {
             window.location.href = dataObj.url
         })
 
-    })
-}
-
-function loadButtonn() {
-    Materialize.toast("Loading Configuration From Server", 3000, "rounded blue")
-    var token = $('#api_key').val()
-    loadDB(token, function(err, data) {
-        if (err || data.error) return Materialize.toast("Invalid Token", 3000, "rounded red")
-        setForm(data)
-        Materialize.toast("Configuration Loaded", 3000, "rounded green")
     })
 }
 
@@ -202,6 +235,7 @@ function setForm(d) {
 
 function disableForm(dis = false) {
     var formItems = [
+		'submit_form',
         'prefix',
         'adblock-toggle',
         'adblock-strikes',
@@ -224,6 +258,23 @@ function disableForm(dis = false) {
             $("#" + formItems[i]).removeAttr("disabled")
         }
     }
+}
+
+function fetchUserInfo(cb) {
+    var token = getToken()
+    $.ajax({
+        url: "/api/userinfo",
+        method: "GET",
+        headers: {
+            Authorization: "Basic " + token
+        },
+        error: function(obj, error) {
+            cb(error, false)
+        },
+        success: function(data) {
+            cb(false, data)
+        }
+    })
 }
 
 function auth(cb) {
@@ -260,21 +311,6 @@ function login(token, cb) {
         }
     })
 }
-
-function A(doc) {
-    return $(doc).val().length !== 0 ? $(doc).val() : false
-}
-
-function B(doc) {
-    return $(doc).prop("checked")
-}
-
-function getOptionals(field, url) {
-    var href = window.location.href;
-    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
-    var string = reg.exec(href);
-    return string ? string[1] : null;
-};
 
 function submitDB(token, data, cb) {
     $.ajax({
@@ -313,6 +349,27 @@ function loadDB(token, cb) {
 
 }
 
+function A(doc) {
+    return $(doc).val().length !== 0 ? $(doc).val() : false
+}
+
+function B(doc) {
+    return $(doc).prop("checked")
+}
+
+function getOptionals(field, url) {
+    var href = window.location.href;
+    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+};
+
+function getToken() {
+    var obj = localStorage.getItem('accessToken')
+    if (!obj) return null
+    var json = JSON.parse(obj)
+    return json.token
+}
 
 
 

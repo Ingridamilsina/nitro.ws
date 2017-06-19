@@ -13,12 +13,7 @@ module.exports = (req, res) => {
         res.cookie('nitroAccessToken', enToken, {maxAge: 518400000})
         res.redirect('http://nitro.ws/dashboard')
     }).catch()
-    /*superagent.get('https://discordapp.com/api/users/@me')
-        .set({
-            Authorization: `${response.body.token_type} ${response.body.access_token}`
-        })
-        .then(r => console.log(r.body))
-    */
+    
 }
 
 function authURI() {

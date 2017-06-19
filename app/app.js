@@ -15,6 +15,7 @@ const database = require('./database')
 const callback = require('./callback')
 const login = require('./login')
 const authorize = require('./authorize')
+const userinfo = require('./userinfo')
 
 //Create Express App
 const app = express();
@@ -74,6 +75,10 @@ async function init() {
 
     router.use('/api/database', (req, res) => {
         database(req, res)
+    })
+
+    router.use('/api/userinfo', (req, res) => {
+       userinfo(req, res)
     })
 
     app.use("/", router);
