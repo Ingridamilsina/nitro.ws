@@ -262,7 +262,6 @@ function disableForm(dis = false) {
 
 function fetchUserInfo(cb) {
     var token = getToken()
-	alert(token)
     $.ajax({
         url: "/api/userinfo",
         method: "GET",

@@ -5,6 +5,7 @@ module.exports = (req, res) => {
     let auth = req.headers.authorization
     if (!auth) return E(res)
     let token = auth.split(" ")
+    console.log(token)
     if (token[0] !== "Basic") return E(res)
     token = (new Buffer(token, "base64")).toString()
     let info = {}
