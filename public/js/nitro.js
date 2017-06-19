@@ -34,8 +34,7 @@ $(document).ready(function() {
     if (nitroAccessToken) {
         var date = new Date()
         var time = date.getTime()
-		alert(nitroAccessToken)
-        localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, date: time }))
+        localStorage.setItem('accessToken', JSON.stringify({ token: nitroAccessToken, date: time }))
     }
 
     var checkAccessToken = localStorage.getItem('accessToken')
