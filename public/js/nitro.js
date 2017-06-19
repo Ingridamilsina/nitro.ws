@@ -29,28 +29,28 @@ $(document).ready(function() {
 
     disableForm(true)
 
-	//Access Token
+    //Access Token
     var nitroAccessToken = getCookie('nitroAccessToken')
     if (nitroAccessToken) {
-		var date = new Date()
-		var time = date.getTime()
-
-        localStorage.setItem('accessToken', JSON.stringify({token: accessToken, date: time}))
+        var date = new Date()
+        var time = date.getTime()
+		alert(nitroAccessToken)
+        localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, date: time }))
     }
 
-	var checkAccessToken = localStorage.getItem('accessToken')
-	if (checkAccessToken) {
-		var parsed = JSON.parse(checkAccessToken)
-		var keyTime = parsed.date
-		var date = new Date()
-		var time = date.getTime()
+    var checkAccessToken = localStorage.getItem('accessToken')
+    if (checkAccessToken) {
+        var parsed = JSON.parse(checkAccessToken)
+        var keyTime = parsed.date
+        var date = new Date()
+        var time = date.getTime()
 
-		if (keyTime - time > 518400000) {
-			loginRedirect()
-		}
-	} else {
-		loginRedirect()
-	}
+        if (keyTime - time > 518400000) {
+            loginRedirect()
+        }
+    } else {
+        loginRedirect()
+    }
 
     //Submit Button
     $("#submit_form").click(submitButton)
@@ -221,10 +221,10 @@ function disableForm(dis = false) {
             $("#" + formItems[i]).attr("disabled", "true")
         }
     } else {
-		for (i = 0; i < formItems.length; i++) {
+        for (i = 0; i < formItems.length; i++) {
             $("#" + formItems[i]).removeAttr("disabled")
         }
-	}
+    }
 }
 
 function auth(cb) {
