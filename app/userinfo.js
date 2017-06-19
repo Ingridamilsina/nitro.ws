@@ -24,12 +24,12 @@ module.exports = (req, res) => {
 
                     let info = {user, guilds}
                     let stringify = JSON.stringify(info)
-
+                    console.log(stringify)
                     res.send(stringify)
 
                 }).catch(err => E(res))
 
-        }).catch(console.log)
+        }).catch(err => E(res))
 
 
 }
