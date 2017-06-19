@@ -7,6 +7,7 @@ module.exports = (req, res) => {
     let token = auth.split(" ")
     if (token[0] !== "Basic") return E(res)
     token = (new Buffer(token[1], "base64")).toString()
+    console.log(token)
     let info = {}
     sa.get('https://discordapp.com/api/users/@me')
         .set({ Authorization: `Bearer ${token}` }).then(user => {
