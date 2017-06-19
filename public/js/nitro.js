@@ -93,11 +93,12 @@ function fillDropdown(guilds) {
 		var text = g.name
 		if (text.length > 25) text = text.substring(0, 25)
 		var a = `<option value="${i}" data-icon="${g.iconURL}" class="circle">${text}</option>`
-		Materialize.toast(g.name)
+		opt.push(a)
 	})
 
 	$('#select-guild').html(opt.join(" "))
 	$('#select-guild').removeAttr('disabled')
+	$('#select-guild').material_select()
 }
 
 function loginRedirect() {
