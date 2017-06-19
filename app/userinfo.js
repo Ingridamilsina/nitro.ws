@@ -11,7 +11,7 @@ module.exports = (req, res) => {
     sa.get('https://discordapp.com/api/users/@me')
         .set({ Authorization: `Bearer ${token}` }).then(user => {
             user = user.body
-            user.avatarURL =  `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`
+            user.avatarURL =  `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
 
             sa.get('https://discordapp.com/api/users/@me/guilds')
                 .set({ Authorization: `Bearer ${token}` }).then(guilds => {
@@ -24,7 +24,7 @@ module.exports = (req, res) => {
 
                     let info = {user, guilds}
                     let stringify = JSON.stringify(info)
-                    console.log(stringify)
+
                     res.send(stringify)
 
                 }).catch(console.log)

@@ -94,7 +94,7 @@ function fillDropdown(guilds) {
 		if (text.length > 25) text = text.substring(0, 25)
 		var a = `<option value="${i}" data-icon="${g.iconURL}" class="circle">${text}</option>`
 	})
-
+	alert(opt.join(" "))
 	$('#select-guild').html(opt.join(" "))
 	$('#select-guild').removeAttr('disabled')
 }
