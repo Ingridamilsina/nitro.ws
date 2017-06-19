@@ -27,23 +27,37 @@ $(document).ready(function() {
         delay: 50
     })
 
-    //Token in url
-    alert(document.cookie)
-    var middleAuth = localStorage.getItem('authorizing')
-    if (middleAuth) {
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('tokenType', tokenType)
+    disableForm(true)
+
+	//Access Token
+    var nitroAccessToken = getCookie('nitroAccessToken')
+    if (nitroAccessToken) {
+		var date = new Date()
+		var time = date.getTime()
+
+        localStorage.setItem('accessToken', JSON.stringify({token: accessToken, date: time}))
     }
 
-    //Load Button
-    $('#load_db').click(loginButton)
+	var checkAccessToken = localStorage.getItem('accessToken')
+	if (checkAccessToken) {
+		var parsed = JSON.parse(checkAccessToken)
+		var keyTime = parsed.date
+		var date = new Date()
+		var time = date.getTime()
+
+		if (keyTime - time > 518400000) {
+			loginRedirect()
+		}
+	} else {
+		loginRedirect()
+	}
 
     //Submit Button
     $("#submit_form").click(submitButton)
 
 })
 
-function loginButton() {
+function loginRedirect() {
     Materialize.toast('Logging In...', 3000, "rounded blue")
     auth(function(err, creds) {
         creds = JSON.parse(creds)
@@ -55,7 +69,6 @@ function loginButton() {
         login(creds, function(err, dataObj) {
             dataObj = JSON.parse(dataObj)
             if (err || dataObj.error) return Materialize.toast("Login Failed, Try Again Later", 3000, "rounded red")
-            localStorage.setItem('authorizing', true)
             window.location.href = dataObj.url
         })
 
