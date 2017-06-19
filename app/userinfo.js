@@ -6,7 +6,8 @@ module.exports = (req, res) => {
     if (!auth) return E(res)
     let token = auth.split(" ")
     if (token[0] !== "Basic") return E(res)
-    token = (new Buffer(token, "base64")).toString()
+    token = new Buffer(token, "base64")
+    token = token.toString()
     console.log(token)
     let info = {}
     sa.get('https://discordapp.com/api/users/@me')
