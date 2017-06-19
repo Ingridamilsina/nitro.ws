@@ -18,7 +18,7 @@ module.exports = (req, res) => {
                     guilds = guilds.body
                     guilds = guilds.filter(g => g.owner)
                     guilds.forEach((g, i) => {
-                        let iconURL = `'https://cdn.discordapp.com/icons/${g.id}/${g.icon}.jpg'`
+                        let iconURL = `'https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png'`
                         guilds[i].iconURL = iconURL
                     })
 
