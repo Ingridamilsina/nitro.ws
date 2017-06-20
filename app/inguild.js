@@ -1,14 +1,19 @@
-const superagent = require('superagent')
+const request = require('request')
 
 module.exports = (req, res) => {
 
     let id = req.headers.guildid
     if (!id) return E(res)
 
-    superagent.get('localhost:2904/api/inguild')
-        .set({ guildid: id }).then(res => {
-            console.log(res)
-        }).catch(console.log)
+    request({
+        url: "localhost:2904/api/inguild",
+        headers: {
+            guildid: id
+        }
+    }, (err, result, body) => {
+        if (err) return console.log(err)
+        console.log(body)
+    })
 
 }
 
