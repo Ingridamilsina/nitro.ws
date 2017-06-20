@@ -30,21 +30,14 @@ let GET = (req, res) => {
 
     r.db('Nitro').table('config').get(id).run(conn, (err, data) => {
         if (err) return E(res)
-        console.log(data)
-        data.toArray((err, array) => {
-            console.log(err)
-            if (err) return E(res)
 
-            if (array.length === 0) {
-                let obj = JSON.stringify({})
-                return res.send(obj)
-            }
-            if (array.length === 1) {
-                let obj = JSON.stringify(array[0])
-                return res.send(obj)
-            }  
-
-        })
+        let obj
+        if (data) {
+            obj = data.data
+        } else {
+            obj = {}
+        }
+        return res.send(JSON.stringify(obj))
     })
 }
 

@@ -105,9 +105,9 @@ function loadGuild(id) {
 		split.push(id)
 		var token = split.join(":")
 		token = btoa(token)
-		
+
 		loadDB(token, function(err, data) {
-			alert(data)
+
 			data = JSON.stringify(data)
 			if (err || data.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 
