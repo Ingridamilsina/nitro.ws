@@ -13,7 +13,6 @@ module.exports = (req, res) => {
         }
     }, (err, result, body) => {
         if (err) return E(res)
-        console.log(body)
         res.send(body)
     })
 
