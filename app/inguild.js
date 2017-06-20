@@ -7,13 +7,13 @@ module.exports = (req, res) => {
 
     request({
         url: "http://localhost:2904/api/inguild",
-        method: "POST",
+        method: "GET",
         headers: {
             guildid: id
         }
     }, (err, result, body) => {
-        if (err) return console.log(err)
-        console.log(body)
+        if (err) return E(res)
+        res.send(body)
     })
 
 }

@@ -1,8 +1,7 @@
 const r = require('rethinkdb')
 
-const {
-    PASS
-} = require('../config').RETHINK
+const { PASS } = require('../config').RETHINK
+const { SECRET, TOKEN } = require('./app')
 
 let conn
 
@@ -16,17 +15,36 @@ module.exports = (req, res) => {
 let GET = (req, res) => {
 
     let token = req.headers.authorization
-    let id = req.headers.server_id
-    r.db('Nitro').table('config').get({
-        id
-    }).run(conn, (err, data) => {
-        let errorObj = JSON.stringify({ error: true })
-        if (err) return res.send(errorOrbj)
+
+    if (!token) return E(res)
+    let split = token.split(" ")
+    if (split[0] !== "Basic") return E(res)
+    let decode = (new Buffer(token[1], 'base64')).toString()
+    decode = decode.split(":")
+
+    if (decode[0] !== TOKEN) return E(res)
+    if (decode[1] !== SECRET) return E(res)
+    if (!decode[2]) return E(res)
+
+    let id = decode[2]
+
+    r.db('Nitro').table('config').get(id).run(conn, (err, data) => {
+
+        if (err) return E(res)
+
         data.toArray((err, array) => {
-            if (err) return res.send(errorObj)
-            if (array.length < 1) res.send(errorObj)
-            if (array.length === 1) res.send(errorObj)
-            if (array.length > 1) res.send(errorObj)
+
+            if (err) return E(res)
+
+            if (array.length === 0) {
+                let obj = JSON.stringify({})
+                return res.send(obj)
+            }
+            if (array.length === 1) {
+                let obj = JSON.stringify(array[0])
+                return res.send(obj)
+            }  
+
         })
     })
 }

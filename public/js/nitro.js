@@ -82,7 +82,7 @@ function selectGuild() {
 		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, 'rounded red')
 
 		if (data.has) {
-			loadGuild(guild)
+			loadGuild(guild.id)
 		} else {
 			Materialize.toast("Nitro is not in this server", 3000, "rounded red")
 			setTimeout(function() {
@@ -94,8 +94,24 @@ function selectGuild() {
 	
 }
 
-function loadGuild(guild) {
+function loadGuild(id) {
+	auth(function(err, creds) {
+		creds = JSON.parse(creds)
+		if (err || data.creds) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
+		creds = creds.auth
 
+		var decode = atob(creds)
+		var split = decode.split(":")
+		split.push(id)
+		var token = split.join(":")
+		token = btoa(token)
+		loadDB(token, function(err, data) {
+			data = JSON.stringify(data)
+			if (err || data.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
+
+			setForm(data)
+		})
+	})
 }
 
 function loadUserData() {
@@ -384,15 +400,13 @@ function submitDB(token, data, cb) {
     })
 }
 
-function loadDB(auth, id, cb) {
+function loadDB(token, cb) {
     $.ajax({
         url: "/api/database",
         method: "GET",
         headers: {
-            Authorization: auth,
-			guildid: id
+            Authorization: "Basic " + token,
         },
-        dataType: "json",
         error: function(obj, err) {
             cb(err, null)
         },
