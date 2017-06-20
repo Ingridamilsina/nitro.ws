@@ -29,9 +29,8 @@ let GET = (req, res) => {
     let id = decode[2]
 
     r.db('Nitro').table('config').get(id).run(conn, (err, data) => {
-        console.log(err)
         if (err) return E(res)
-
+        console.log(data)
         data.toArray((err, array) => {
             console.log(err)
             if (err) return E(res)
