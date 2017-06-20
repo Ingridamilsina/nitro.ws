@@ -112,6 +112,7 @@ function loadGuild(id) {
 			if (err || data.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 
 			setForm(data)
+			disableForm()
 		})
 	})
 }
