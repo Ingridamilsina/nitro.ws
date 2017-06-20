@@ -22,6 +22,7 @@ let GET = (req, res) => {
     let decode = (new Buffer(token[1], 'base64')).toString()
     decode = decode.split(":")
     console.log(decode)
+    console.log(TOKEN)
     if (decode[0] !== TOKEN) return E(res)
     if (decode[1] !== SECRET) return E(res)
     if (!decode[2]) return E(res)
