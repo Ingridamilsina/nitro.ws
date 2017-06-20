@@ -104,8 +104,8 @@ function loadGuild(id) {
 		var split = decode.split(":")
 		split.push(id)
 		var token = split.join(":")
-		alert(token)
 		token = btoa(token)
+		
 		loadDB(token, function(err, data) {
 			alert(data)
 			data = JSON.stringify(data)
