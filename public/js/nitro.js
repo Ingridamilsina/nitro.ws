@@ -95,6 +95,7 @@ function selectGuild() {
 }
 
 function loadGuild(id) {
+	alert("wtf")
 	auth(function(err, creds) {
 		creds = JSON.parse(creds)
 		if (err || data.creds) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
