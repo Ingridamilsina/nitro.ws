@@ -7,6 +7,7 @@ module.exports = (req, res) => {
 
     request({
         url: "http://localhost:2904/api/inguild",
+        method: "POST",
         headers: {
             guildid: id
         }
