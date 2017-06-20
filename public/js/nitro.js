@@ -108,7 +108,7 @@ function loadGuild(id) {
 
 		loadDB(token, function(err, data) {
 
-			data = JSON.stringify(data)
+			data = JSON.parse(data)
 			if (err || data.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 
 			setForm(data)

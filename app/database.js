@@ -37,7 +37,7 @@ let GET = (req, res) => {
         } else {
             obj = {}
         }
-        console.log(obj)
+
         return res.send(JSON.stringify(obj))
     })
 }
