@@ -82,10 +82,8 @@ function selectGuild() {
 		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, 'rounded red')
 
 		if (data.has) {
-			alert("has")
 			loadGuild(guild.id)
 		} else {
-			alert('no')
 			Materialize.toast("Nitro is not in this server", 3000, "rounded red")
 			setTimeout(function() {
 				window.location.href = "https://discordapp.com/oauth2/authorize?client_id=264087705124601856&scope=bot&permissions=170929206"
@@ -108,6 +106,7 @@ function loadGuild(id) {
 		var token = split.join(":")
 		token = btoa(token)
 		loadDB(token, function(err, data) {
+			alert(dataa)
 			data = JSON.stringify(data)
 			if (err || data.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 
