@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     superagent.get('localhost:2904/api/inguild')
         .set({ guildid: id }).then(res => {
             console.log(res)
-        })
+        }).catch(console.log)
 
 }
 
