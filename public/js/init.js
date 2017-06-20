@@ -1,9 +1,1 @@
-//Initialize Jquery
-(function($) {
-    $(function() {
-
-        $('.button-collapse').sideNav();
-        $('.parallax').parallax();
-
-    }); // end of document ready
-})(jQuery); // end of jQuery name space
+'use strict';(function(a){a(function(){a('.button-collapse').sideNav(),a('.parallax').parallax()})})(jQuery);
