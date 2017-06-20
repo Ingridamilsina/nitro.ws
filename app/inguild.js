@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     if (!id) return E(res)
 
     request({
-        url: "localhost:2904/api/inguild",
+        url: "http://localhost:2904/api/inguild",
         headers: {
             guildid: id
         }
