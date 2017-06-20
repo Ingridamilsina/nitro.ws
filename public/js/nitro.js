@@ -1,3 +1,5 @@
+var ownedGuilds
+
 $(document).ready(function() {
     //Chips
     $('#adblock-users').material_chip({
@@ -19,8 +21,8 @@ $(document).ready(function() {
         secondaryPlaceholder: "The Keyword"
     });
 
-	//Select
-	$("#select-guild").material_select()
+    //Select
+    $("#select-guild").material_select()
 
     //Tooltips
     $("#load_db").tooltip({
@@ -61,44 +63,77 @@ $(document).ready(function() {
     //Submit Button
     //$("#submit_form").click(submitButton)
 
+    //select-guild
+    $('#select-guild').change(selectGuild)
+
 })
+
+function selectGuild() {
+	if (!ownedGuilds) return Materialize.toast("Reload Page", 3000, "rounded red")
+
+    var val = $('#select-guild').val()
+	var guild = ownedGuilds[val]
+	if (!guild) return Materialize.toast("Invalid Guild Selected", 3000, 'rounded red')
+
+	var id = guild.id
+
+	checkInGuild(id, function(err, data) {
+		data = JSON.parse(data)
+		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, 'rounded red')
+
+		if (data.has) {
+			loadGuild(guild)
+		} else {
+			Materialize.toast("Nitro is not in this server", 3000, "rounded red")
+			setTimeout(function() {
+				window.location.href = "https://discordapp.com/oauth2/authorize?client_id=264087705124601856&scope=bot&permissions=170929206"
+			}, 2000)
+		}
+	})
+
+	
+}
+
+function loadGuild(guild) {
+
+}
 
 function loadUserData() {
     Materialize.toast("Fetching Guilds...", 3000, "rounded blue")
     fetchUserInfo(function(err, data) {
-		data = JSON.parse(data)
-		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
-		
-		if (data.guilds.length === 0) return Materialize.toast("You Do Not Own Any Servers", 3000, "rounded red")
+        data = JSON.parse(data)
+        if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 
-		fillProfile(data.user)
-		fillDropdown(data.guilds)
+        if (data.guilds.length === 0) return Materialize.toast("You Do Not Own Any Servers", 3000, "rounded red")
+
+        fillProfile(data.user)
+        fillDropdown(data.guilds)
 
     })
 }
 
 function fillProfile(user) {
-	$('#profile-img').attr('src', user.avatarURL)
-	$('#profile-text').attr('class', 'brand-logo')
-	if (user.username.length > 10) user.username = user.username.substring(0, 10)
-	$('#profile-text').text(user.username)
+    $('#profile-img').attr('src', user.avatarURL)
+    $('#profile-text').attr('class', 'brand-logo')
+    if (user.username.length > 10) user.username = user.username.substring(0, 10)
+    $('#profile-text').text(user.username)
 }
 
 function fillDropdown(guilds) {
-	var opt = []
-	var choose = `<option value="" disabled selected>Choose an option</option>`
-	opt.push(choose)
+    var opt = []
+    var choose = `<option value="" disabled selected>Choose an option</option>`
+    opt.push(choose)
 
-	guilds.forEach((g, i) => {
-		var text = g.name
-		if (text.length > 25) text = text.substring(0, 25)
-		var a = `<option value="${i}" data-icon="${g.iconURL}" class="circle">${text}</option>`
-		opt.push(a)
-	})
-
-	$('#select-guild').html(opt.join(" "))
-	$('#select-guild').removeAttr('disabled')
-	$('#select-guild').material_select()
+    guilds.forEach((g, i) => {
+        var text = g.name
+        if (text.length > 25) text = text.substring(0, 25)
+        var a = `<option value="${i}" data-icon="${g.iconURL}" class="circle">${text}</option>`
+        opt.push(a)
+    })
+	ownedGuilds = guilds
+    $('#select-guild').html(opt.join(" "))
+    $('#select-guild').removeAttr('disabled')
+    $('#select-guild').material_select()
 }
 
 function loginRedirect() {
@@ -237,7 +272,7 @@ function setForm(d) {
 
 function disableForm(dis = false) {
     var formItems = [
-		'submit_form',
+        'submit_form',
         'prefix',
         'adblock-toggle',
         'adblock-strikes',
@@ -260,6 +295,22 @@ function disableForm(dis = false) {
             $("#" + formItems[i]).removeAttr("disabled")
         }
     }
+}
+
+function checkInGuild(id, cb) {
+	$.ajax({
+		url: "/api/inguild",
+		method: "GET",
+		headers: {
+			guildid: id
+		},
+		error: function(obj, error) {
+			cb(error, false)
+		},
+		success: function(data) {
+			cb(false, data)
+		}
+	})
 }
 
 function fetchUserInfo(cb) {
@@ -333,12 +384,13 @@ function submitDB(token, data, cb) {
     })
 }
 
-function loadDB(token, cb) {
+function loadDB(auth, id, cb) {
     $.ajax({
         url: "/api/database",
         method: "GET",
         headers: {
-            Authorization: token
+            Authorization: auth,
+			guildid: id
         },
         dataType: "json",
         error: function(obj, err) {

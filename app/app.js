@@ -16,6 +16,7 @@ const callback = require('./callback')
 const login = require('./login')
 const authorize = require('./authorize')
 const userinfo = require('./userinfo')
+const inguild = require('./inguild')
 
 //Create Express App
 const app = express();
@@ -79,6 +80,10 @@ async function init() {
 
     router.use('/api/userinfo', (req, res) => {
        userinfo(req, res)
+    })
+
+    router.use('/api/inguild', (req, res) => {
+        inguild(req, res)
     })
 
     app.use("/", router);
