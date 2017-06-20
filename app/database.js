@@ -43,35 +43,31 @@ let GET = (req, res) => {
 }
 
 let POST = (req, res) => {
-    let returnObj = {
-        error: true
-    }
+
     let token = req.headers.authorization
-    r.table('config').filter({
-        "data": {
-            "apitoken": token
-        }
+
+    if (!token) return E(res)
+    let split = token.split(" ")
+    if (split[0] !== "Basic") return E(res)
+    let decode = (new Buffer(split[1], 'base64')).toString()
+    decode = decode.split(":")
+
+    if (decode[0] !== TOKEN) return E(res)
+    if (decode[1] !== SECRET) return E(res)
+    if (!decode[2]) return E(res)
+
+    let id = decode[2]
+
+    r.table('config').insert({
+        id,
+        data: JSON.parse(req.headers.data)
+    }, {
+        conflict: "update"
     }).run(conn, (err, data) => {
-        if (err) return res.send(JSON.stringify(returnObj))
-        data.toArray((err, array) => {
-            if (err) return res.send(JSON.stringify(returnObj))
-            if (array.length < 1) return res.send(JSON.stringify(returnObj))
-            if (array.length === 1) {
-                r.table('config').insert({
-                    id: array[0].id,
-                    data: JSON.parse(req.headers.data)
-                }, {
-                    conflict: "update"
-                }).run(conn, (err, data) => {
-                    if (err) return res.send(JSON.stringify(returnObj))
-                    res.send(JSON.stringify({
-                        error: false
-                    }))
-                })
-            }
-            if (array.length > 1) return res.send(JSON.stringify(returnObj))
-        })
+        if (err) return E(res)
+
     })
+
 }
 
 module.exports.init = async() => {

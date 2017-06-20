@@ -61,60 +61,90 @@ $(document).ready(function() {
     }
 
     //Submit Button
-    //$("#submit_form").click(submitButton)
+    $("#submit_form").click(submitButton)
 
     //select-guild
     $('#select-guild').change(selectGuild)
 
 })
 
+function submitButton() {
+    Materialize.toast("Submitting Configuration", 3000, "rounded blue")
+    var token = $('#api_key').val()
+    var data = collectForm()
+    auth(function(err, creds) {
+        creds = JSON.parse(creds)
+        if (err || creds.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
+        creds = creds.auth
+
+        var decode = atob(creds)
+        var split = decode.split(":")
+        split.push(id)
+        var token = split.join(":")
+        token = btoa(token)
+
+        var data = collectForm()
+
+        var val = $('#select-guild').val()
+        var guild = ownedGuilds[val]
+        var id = guild.id
+
+        submitDB(token, data, function(err, success) {
+            success = JSON.parse(success)
+            if (err || success.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
+            Materialize.toast("Configuration Saved To Server", 3000, "rounded green")
+        })
+    })
+}
+
 function selectGuild() {
-	if (!ownedGuilds) return Materialize.toast("Reload Page", 3000, "rounded red")
+    if (!ownedGuilds) return Materialize.toast("Reload Page", 3000, "rounded red")
 
     var val = $('#select-guild').val()
-	var guild = ownedGuilds[val]
-	if (!guild) return Materialize.toast("Invalid Guild Selected", 3000, 'rounded red')
+    var guild = ownedGuilds[val]
+    if (!guild) return Materialize.toast("Invalid Guild Selected", 3000, 'rounded red')
 
-	var id = guild.id
+    var id = guild.id
 
-	checkInGuild(id, function(err, data) {
-		data = JSON.parse(data)
-		if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, 'rounded red')
+    checkInGuild(id, function(err, data) {
+        data = JSON.parse(data)
+        if (err || data.error) return Materialize.toast("Request Failed, Try Again Later", 3000, 'rounded red')
 
-		if (data.has) {
-			loadGuild(guild.id)
-		} else {
-			Materialize.toast("Nitro is not in this server", 3000, "rounded red")
-			setTimeout(function() {
-				window.location.href = "https://discordapp.com/oauth2/authorize?client_id=264087705124601856&scope=bot&permissions=170929206"
-			}, 2000)
-		}
-	})
+        if (data.has) {
+            loadGuild(guild.id)
+        } else {
+            Materialize.toast("Nitro is not in this server", 3000, "rounded red")
+            setTimeout(function() {
+                window.location.href = "https://discordapp.com/oauth2/authorize?client_id=264087705124601856&scope=bot&permissions=170929206"
+            }, 2000)
+        }
+    })
 
-	
+
 }
 
 function loadGuild(id) {
-	auth(function(err, creds) {
-		creds = JSON.parse(creds)
-		if (err || creds.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
-		creds = creds.auth
+    auth(function(err, creds) {
+        creds = JSON.parse(creds)
+        if (err || creds.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
+        creds = creds.auth
 
-		var decode = atob(creds)
-		var split = decode.split(":")
-		split.push(id)
-		var token = split.join(":")
-		token = btoa(token)
+        var decode = atob(creds)
+        var split = decode.split(":")
+        split.push(id)
+        var token = split.join(":")
+        token = btoa(token)
 
-		loadDB(token, function(err, data) {
+        loadDB(token, function(err, data) {
 
-			data = JSON.parse(data)
-			if (err || data.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
+            data = JSON.parse(data)
+            if (err || data.error) Materialize.toast("Request Failed, Try Again Later", 3000, "rounded red")
 
-			setForm(data)
-			disableForm()
-		})
-	})
+            setForm(data)
+            disableForm()
+            Materialize.toast("Loading Configuration", 3000, "rounded green")
+        })
+    })
 }
 
 function loadUserData() {
@@ -149,7 +179,7 @@ function fillDropdown(guilds) {
         var a = `<option value="${i}" data-icon="${g.iconURL}" class="circle">${text}</option>`
         opt.push(a)
     })
-	ownedGuilds = guilds
+    ownedGuilds = guilds
     $('#select-guild').html(opt.join(" "))
     $('#select-guild').removeAttr('disabled')
     $('#select-guild').material_select()
@@ -170,16 +200,6 @@ function loginRedirect() {
             window.location.href = dataObj.url
         })
 
-    })
-}
-
-function submitButton() {
-    Materialize.toast("Submitting Configuration", 3000, "rounded blue")
-    var token = $('#api_key').val()
-    var data = collectForm()
-    submitDB(token, data, function(err, data) {
-        if (err || data.error) return Materialize.toast("Invalid Token", 3000, "rounded red")
-        Materialize.toast("Configuration Saved To Server", 3000, "rounded green")
     })
 }
 
@@ -317,19 +337,19 @@ function disableForm(dis = false) {
 }
 
 function checkInGuild(id, cb) {
-	$.ajax({
-		url: "/api/inguild",
-		method: "GET",
-		headers: {
-			guildid: id
-		},
-		error: function(obj, error) {
-			cb(error, false)
-		},
-		success: function(data) {
-			cb(false, data)
-		}
-	})
+    $.ajax({
+        url: "/api/inguild",
+        method: "GET",
+        headers: {
+            guildid: id
+        },
+        error: function(obj, error) {
+            cb(error, false)
+        },
+        success: function(data) {
+            cb(false, data)
+        }
+    })
 }
 
 function fetchUserInfo(cb) {
