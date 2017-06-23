@@ -100,7 +100,9 @@ async function init() {
             console.log("Live at Port " + port);
         });
     } else {
+        
         fs.readFile('./nitro.ws.key', (err, key) => {
+            console.log("uh")
             if (err) return new Error("Could Not Find Key")
             fs.readFile('./nitro.ws.csr', (err, cert) => {
                 if (err) return new Error("Could Not Find Cert")
