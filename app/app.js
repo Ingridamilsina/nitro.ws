@@ -26,7 +26,7 @@ const router = express.Router()
 let path = __dirname.split('/')
 path.pop()
 path = path.join('/') + "/views/"
-const port = process.env.PORT || 1337
+const port = process.env.PORT || 8443
 
 async function init() {
 
