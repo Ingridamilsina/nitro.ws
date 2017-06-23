@@ -102,7 +102,7 @@ async function init() {
     } else {
 
         let key = fs.readFileSync('./nitro.ws.key', 'utf8')
-        let cert = fs.readFileSync('./nitro.ws.csr', 'utf8')
+        let cert = fs.readFileSync('./nitro.ws.crt', 'utf8')
 
         let creds = { key, cert }
         let httpsServer = https.createServer(creds, app)
