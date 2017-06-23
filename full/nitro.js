@@ -1,38 +1,51 @@
-var ownedGuilds
+let formItems = [
+    'submit_form',
+    'prefix',
+    'adblock-toggle',
+    'adblock-strikes',
+    'adblock-notify',
+    'adblock-users',
+    'adblock-roles',
+    'filter-strikes',
+    'filter-keywords',
+    'joindm',
+    'module-music',
+    'module-fun',
+    'module-social'
+]
 
-function collectForm() {
-    var form = {}
+let collectForm = () => {
+    let form = {}
+
     //Prefix
     A("#prefix") ? form.prefix = A("#prefix") : 0
 
     //Adlock
-    var adblock = {}
+    let adblock = {}
     adblock.on = B("#adblock-toggle")
     adblock.strikes = B("#adblock-strikes")
     adblock.notify = B("#adblock-notify")
     adblock.ex = {}
-    var userChips = $("#adblock-users").material_chip("data")
-    var users = {}
-    userChips.forEach(function(chip) {
-        //Filter the chips
+    let userChips = $("#adblock-users").material_chip("data")
+    let users = {}
+    userChips.forEach(chip => {
         if (!/[^0123456789]/g.test(chip.tag) && /\d{17,}/g.test(chip.tag)) users[chip.tag] = true
     })
     adblock.ex.users = users
-    var roleChips = $("#adblock-roles").material_chip("data")
-    var roles = {}
-    roleChips.forEach(function(chip) {
-        //Filter the chips
+    let roleChips = $("#adblock-roles").material_chip("data")
+    let roles = {}
+    roleChips.forEach(chip => {
         if (!/[^0123456789]/g.test(chip.tag) && /\d{17,}/g.test(chip.tag)) roles[chip.tag] = true
     })
     adblock.ex.roles = roles
     form.adblock = adblock
 
-    //Keyword Filters
-    var filter = {}
+    //Filters
+    let filter = {}
     filter.strikes = B("#filter-strikes")
-    var filterChips = $("#filter-keywords").material_chip("data")
-    var keywords = {}
-    filterChips.forEach(function(chip) {
+    let filterChips = $("#filter-keywords").material_chip("data")
+    let keywords = {}
+    filterChips.forEach(chip => {
         keywords[chip.tag] = true
     })
     filter.keywords = keywords
@@ -42,7 +55,7 @@ function collectForm() {
     A("#joindm") ? form.joindm = A("#joindm") : 0
 
     //Modules
-    var modules = {}
+    let modules = {}
     modules.music = !B("#module-fun")
     modules.social = !B("#module-fun")
     modules.fun = !B("#module-fun")
@@ -51,65 +64,86 @@ function collectForm() {
     return form
 }
 
-function setForm(d) {
+let setForm = (c) => {
+    //Prefix
     (!d.prefix) || $("#prefix").val(d.prefix)
 
+    //Adblock
     if (d.adblock) {
         $('#adblock-toggle').prop('checked', d.adblock.on)
         $('#adblock-strikes').prop('checked', d.adblock.strikes)
         $('#adblock-notify').prop('checked', d.adblock.notify)
         if (d.adblock.ex && d.adblock.ex.users) {
             var data = []
-            Object.keys(d.adblock.ex.users).forEach(function(chip) {
-                data.push({
-                    tag: chip
-                })
+            Object.keys(d.adblock.ex.users).forEach(chip => {
+                data.push({ tag: chip })
             })
-            $('#adblock-users').material_chip({
-                data: data
-            })
+            $('#adblock-users').material_chip({ data })
         }
         if (d.adblock.ex && d.adblock.ex.roles) {
             var data = []
-            Object.keys(d.adblock.ex.roles).forEach(function(chip) {
-                data.push({
-                    tag: chip
-                })
+            Object.keys(d.adblock.ex.roles).forEach(chip => {
+                data.push({ tag: chip })
             })
-            $('#adblock-roles').material_chip({
-                data: data
-            })
+            $('#adblock-roles').material_chip({ data })
         }
     }
 
+    //Filter
     if (d.filter) {
         $('#filter-strikes').prop('checked', d.filter.strikes)
         if (d.filter.keywords) {
             var data = []
             Object.keys(d.filter.keywords).forEach(function(chip) {
-                data.push({
-                    tag: chip
-                })
+                data.push({ tag: chip })
             })
-            $('#filter-keywords').material_chip({
-                data: data
-            })
+            $('#filter-keywords').material_chip({ data })
         }
     }
 
+    //Joindm
     $("#joindm").val(d.joindm)
 
+    //Modules
     $("#module-music").prop('checked', !d.modules.music)
     $("#module-social").prop('checked', !d.modules.social)
     $("#module-fun").prop('checked', !d.modules.fun)
 
+}
+
+let lever = (item, val) => {
+    if (val === undefined) {
+        $(`#${item}`)
+    } else {
+
+    }
+}
+
+let input = (item, val) => {
 
 }
 
-function clearForm() {
-    
+let field = (item, val) => {
+
 }
 
+
+
+let clearForm = () => {
+
+}
+
+let disableForm = (dis) => {
+    if (dis) {
+        for (var i = 0; i < formItems.length; i++) {
+            $("#" + formItems[i]).attr("disabled", "true")
+        }
+    } else {
+        for (var i = 0; i < formItems.length; i++) {
+            $("#" + formItems[i]).removeAttr("disabled")
+        }
+    }
+}
 
 
 
@@ -193,6 +227,7 @@ $(document).ready(function() {
     $('#select-guild').change(selectGuild)
 
 })
+let ownedGuilds
 
 function submitButton() {
     Materialize.toast("Submitting Configuration", 3000, "rounded blue")
@@ -329,33 +364,6 @@ function loginRedirect() {
     })
 }
 
-function disableForm(dis = false) {
-    var formItems = [
-        'submit_form',
-        'prefix',
-        'adblock-toggle',
-        'adblock-strikes',
-        'adblock-notify',
-        'adblock-users',
-        'adblock-roles',
-        'filter-strikes',
-        'filter-keywords',
-        'joindm',
-        'module-music',
-        'module-fun',
-        'module-social'
-    ]
-    if (dis) {
-        for (i = 0; i < formItems.length; i++) {
-            $("#" + formItems[i]).attr("disabled", "true")
-        }
-    } else {
-        for (i = 0; i < formItems.length; i++) {
-            $("#" + formItems[i]).removeAttr("disabled")
-        }
-    }
-}
-
 function checkInGuild(id, cb) {
     $.ajax({
         url: "/api/inguild",
@@ -468,9 +476,9 @@ function B(doc) {
     return $(doc).prop("checked")
 }
 
-function getOptionals(field, url) {
+function getOptionals(asd, url) {
     var href = window.location.href;
-    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+    var reg = new RegExp('[?&]' + asd + '=([^&#]*)', 'i');
     var string = reg.exec(href);
     return string ? string[1] : null;
 };
@@ -481,9 +489,6 @@ function getToken() {
     var json = JSON.parse(obj)
     return json.token
 }
-
-
-
 
 
 
