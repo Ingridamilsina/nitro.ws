@@ -105,7 +105,7 @@ async function init() {
         let cert = fs.readFileSync('./nitro.ws.crt', 'utf8')
 
         let creds = { key, cert }
-        let httpsServer = https.createServer(creds, app)
+        let httpsServer = https.createServer(creds, router)
         httpsServer.listen(port, () => {
             console.log("Live with https on Port " + port);
         })
@@ -113,5 +113,3 @@ async function init() {
     }
 
 })()
-
-
