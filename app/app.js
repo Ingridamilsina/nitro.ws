@@ -1,6 +1,8 @@
 //Modules
 const express = require("express")
 const cookieParser = require('cookie-parser')
+const https = require('https')
+const fs = require('fs')
 
 //Config
 const config = require('../config')
@@ -79,7 +81,7 @@ async function init() {
     })
 
     router.use('/api/userinfo', (req, res) => {
-       userinfo(req, res)
+        userinfo(req, res)
     })
 
     router.use('/api/inguild', (req, res) => {
@@ -93,8 +95,23 @@ async function init() {
         res.sendFile(path + "404.html");
     });
 
-    app.listen(port, () => {
-        console.log("Live at Port " + port);
-    });
+    if (process.env.DEV) {
+        app.listen(port, () => {
+            console.log("Live at Port " + port);
+        });
+    } else {
+        fs.readFile('./nitro.ws.key', (err, key) => {
+            if (err) return new Error("Could Not Find Key")
+            fs.readFile('./nitro.ws.csr', (err, cert) => {
+                if (err) return new Error("Could Not Find Cert")
+
+                let creds = { key, cert }
+                let httpsServer = https.createServer(creds, app)
+                httpsServer.listen(port, () => {
+                    console.log("Live with https on Port " + port);
+                })
+            })
+        })
+    }
 
 })()
