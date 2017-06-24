@@ -12,7 +12,6 @@ module.exports = (req, res) => {
     if (decode[1] !== SECRET) return E(res)
     var AUTH_URI = authURI()
     let obj = JSON.stringify({ url: AUTH_URI })
-    console.log(obj)
     res.send(obj)
 
 }
