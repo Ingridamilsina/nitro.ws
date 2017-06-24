@@ -47,6 +47,7 @@ async function init() {
 
     router.use(function(req, res, next) {
         let txt = `[${req.ip}] ${req.method} ${req.url}`
+        console.log(txt)
         next();
     });
 
