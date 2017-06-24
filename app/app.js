@@ -46,20 +46,22 @@ async function init() {
 
 
     router.use(function(req, res, next) {
-        console.log(req.url);
+        let txt = `[${req.ip}] ${req.method} ${req.url}`
         next();
     });
 
     //Website
     router.get("/", function(req, res) {
+        console.log("Returning index.html")
         res.sendFile(path + "index.html");
     });
 
     router.get("/commands", (req, res) => {
-
+        console.log("Returning commands.html")
     })
 
     router.get("/dashboard", (req, res) => {
+        console.log("Returning dashboard.html")
         res.sendFile(path + "dashboard.html");
     });
 
@@ -92,6 +94,7 @@ async function init() {
 
     //404
     app.use("*", (req, res) => {
+        console.log("Returning 404")
         res.sendFile(path + "404.html");
     });
 
