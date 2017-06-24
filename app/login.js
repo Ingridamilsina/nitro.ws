@@ -16,7 +16,7 @@ module.exports = (req, res) => {
 
 }
 
-function E(res) {
+function E(res) { 
     let errorObj = JSON.stringify({
         error: true,
         msg: "Unauthorized"
